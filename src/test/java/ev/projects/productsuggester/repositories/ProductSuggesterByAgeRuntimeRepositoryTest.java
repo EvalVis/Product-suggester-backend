@@ -1,5 +1,6 @@
 package ev.projects.productsuggester.repositories;
 
+import ev.projects.productsuggester.models.Answer;
 import ev.projects.productsuggester.models.Product;
 import ev.projects.productsuggester.utils.ProductRetriever;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,22 +14,28 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class ProductSuggesterByAgeRuntimeRepositoryTest {
 
-    private ProductSuggesterRepository productSuggesterRepository;
+    private ProductSuggesterRuntimeRepository productSuggesterRuntimeRepository;
 
     @BeforeEach
     public void prepare() {
-        productSuggesterRepository = new ProductSuggesterByAgeRuntimeRepository();
+        productSuggesterRuntimeRepository = new ProductSuggesterRuntimeRepository();
     }
 
     @Test
     public void shouldReturnCorrectSuggestionGivenAge() {
         //Arrange
-        String age = "0-17";
+        String age = "18-64";
+        boolean isStudent = true;
+        String income = "12001-40000";
+        Answer answer = new Answer(age, isStudent, income);
         //Act
-        List<Product> suggestedProducts = productSuggesterRepository.getSuggestions(age);
+        List<Product> productSuggestions = productSuggesterRuntimeRepository.getSuggestions(answer);
         //Assert
-        List<Product> expectedProducts = new ArrayList<>(Arrays.asList(ProductRetriever.getJuniorSaverAccountProduct()));
-        assertArrayEquals(expectedProducts.toArray(), suggestedProducts.toArray());
+        List<Product> expectedSuggestions = new ArrayList<>(Arrays.asList(
+                ProductRetriever.getCurrentAccountProduct(),
+                ProductRetriever.getStudentAccountProduct(),
+                ProductRetriever.getCreditCardProduct()));
+        assertArrayEquals(expectedSuggestions.toArray(), productSuggestions.toArray());
     }
 
 }
