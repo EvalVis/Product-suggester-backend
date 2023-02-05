@@ -95,9 +95,12 @@ public class ProductSuggestionRuntimeRepository implements ProductSuggestionRepo
 
     @Override
     public List<Product> getSuggestions(Answer answer) {
-        List<Product> suggestionsByAge = productSuggestionsByAge.get(answer.getAgeRange());
-        List<Product> suggestionsByStudentStatus = productSuggestionsByStudentStatus.get(answer.isStudent());
-        List<Product> suggestionsByIncome = productSuggestionsByIncome.get(answer.getIncomeRange());
+        List<Product> suggestionsByAge = productSuggestionsByAge
+                .getOrDefault(answer.getAgeRange(), new ArrayList<>());
+        List<Product> suggestionsByStudentStatus = productSuggestionsByStudentStatus
+                .getOrDefault(answer.isStudyingStatus(), new ArrayList<>());
+        List<Product> suggestionsByIncome = productSuggestionsByIncome
+                .getOrDefault(answer.getIncomeRange(), new ArrayList<>());
         List<Product> suggestedProducts = suggestionsByAge.stream()
                 .filter(suggestedProduct ->
                         suggestionsByStudentStatus.contains(suggestedProduct)

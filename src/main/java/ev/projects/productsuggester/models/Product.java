@@ -1,10 +1,14 @@
 package ev.projects.productsuggester.models;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
 @AllArgsConstructor
+@NoArgsConstructor
+@Getter
 public class Product {
 
     String name;
