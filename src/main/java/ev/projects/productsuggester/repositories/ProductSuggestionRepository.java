@@ -5,6 +5,6 @@ import ev.projects.productsuggester.models.Product;
 
 import java.util.List;
 
-public interface ProductSuggesterRepository {
+public interface ProductSuggestionRepository {
     List<Product> getSuggestions(Answer answer);
 }

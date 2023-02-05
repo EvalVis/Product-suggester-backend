@@ -6,16 +6,15 @@ import ev.projects.productsuggester.utils.ProductRetriever;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Repository
-public class ProductSuggesterRuntimeRepository implements ProductSuggesterRepository {
+public class ProductSuggestionRuntimeRepository implements ProductSuggestionRepository {
 
     private Map<String, List<Product>> productSuggestionsByAge;
     private Map<Boolean, List<Product>> productSuggestionsByStudentStatus;
     private Map<String, List<Product>> productSuggestionsByIncome;
 
-    public ProductSuggesterRuntimeRepository() {
+    public ProductSuggestionRuntimeRepository() {
         initializeData();
     }
 

@@ -12,13 +12,13 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-public class ProductSuggesterByAgeRuntimeRepositoryTest {
+public class ProductSuggestionByAgeRuntimeRepositoryTest {
 
-    private ProductSuggesterRuntimeRepository productSuggesterRuntimeRepository;
+    private ProductSuggestionRuntimeRepository productSuggestionsRuntimeRepository;
 
     @BeforeEach
     public void prepare() {
-        productSuggesterRuntimeRepository = new ProductSuggesterRuntimeRepository();
+        productSuggestionsRuntimeRepository = new ProductSuggestionRuntimeRepository();
     }
 
     @Test
@@ -29,7 +29,7 @@ public class ProductSuggesterByAgeRuntimeRepositoryTest {
         String income = "12001-40000";
         Answer answer = new Answer(age, isStudent, income);
         //Act
-        List<Product> productSuggestions = productSuggesterRuntimeRepository.getSuggestions(answer);
+        List<Product> productSuggestions = productSuggestionsRuntimeRepository.getSuggestions(answer);
         //Assert
         List<Product> expectedSuggestions = new ArrayList<>(Arrays.asList(
                 ProductRetriever.getCurrentAccountProduct(),
