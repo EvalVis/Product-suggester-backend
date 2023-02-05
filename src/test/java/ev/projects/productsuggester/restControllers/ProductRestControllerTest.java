@@ -58,4 +58,18 @@ public class ProductRestControllerTest {
         assertTrue(productSuggestions.contains(product));
     }
 
+    @Test
+    public void shouldReturnErrorOnCreateProductGivenEmptyBody() {
+        //Arrange
+        String url = baseUrl + "/product/create";
+        //Act
+        TestRestTemplate restTemplate = new TestRestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        HttpEntity<ProductAnswer> creationRequest = new HttpEntity<>(new ProductAnswer(), headers);
+        ResponseEntity<Void> creationResponse = restTemplate.postForEntity(url, creationRequest, Void.class);
+        //Assert
+        assertEquals(HttpStatus.BAD_REQUEST, creationResponse.getStatusCode());
+    }
+
 }

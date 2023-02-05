@@ -95,15 +95,12 @@ public class ProductSuggestionRuntimeRepository implements ProductSuggestionRepo
 
     @Override
     public List<Product> getSuggestions(Answer answer) {
-        if(Objects.isNull(answer)) {
+        if(isBadAnswer(answer)) {
             throw new NullPointerException();
         }
-        List<Product> suggestionsByAge = productSuggestionsByAge
-                .getOrDefault(answer.getAgeRange(), new ArrayList<>());
-        List<Product> suggestionsByStudentStatus = productSuggestionsByStudentStatus
-                .getOrDefault(answer.isStudying(), new ArrayList<>());
-        List<Product> suggestionsByIncome = productSuggestionsByIncome
-                .getOrDefault(answer.getIncomeRange(), new ArrayList<>());
+        List<Product> suggestionsByAge = productSuggestionsByAge.get(answer.getAgeRange());
+        List<Product> suggestionsByStudentStatus = productSuggestionsByStudentStatus.get(answer.isStudying());
+        List<Product> suggestionsByIncome = productSuggestionsByIncome.get(answer.getIncomeRange());
         List<Product> suggestedProducts = suggestionsByAge.stream()
                 .filter(suggestedProduct ->
                         suggestionsByStudentStatus.contains(suggestedProduct)
@@ -114,7 +111,7 @@ public class ProductSuggestionRuntimeRepository implements ProductSuggestionRepo
 
     @Override
     public void addProduct(Product product, Answer answer) {
-        if(Objects.isNull(product) || Objects.isNull(answer)) {
+        if(isBadProduct(product) || isBadAnswer(answer)) {
             throw new NullPointerException();
         }
         productSuggestionsByAge.computeIfAbsent(answer.getAgeRange(), key -> new ArrayList<>()).add(product);
@@ -122,5 +119,15 @@ public class ProductSuggestionRuntimeRepository implements ProductSuggestionRepo
         productSuggestionsByIncome.computeIfAbsent(answer.getIncomeRange(), key -> new ArrayList<>()).add(product);
     }
 
+    private boolean isBadProduct(Product product) {
+        return Objects.isNull(product) ||
+                Objects.isNull(product.getName());
+    }
+
+    private boolean isBadAnswer(Answer answer) {
+        return Objects.isNull(answer) ||
+                Objects.isNull(answer.getAgeRange()) ||
+                Objects.isNull(answer.getIncomeRange());
+    }
 
 }

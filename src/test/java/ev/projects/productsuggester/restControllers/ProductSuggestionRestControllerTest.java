@@ -51,8 +51,22 @@ public class ProductSuggestionRestControllerTest {
                 ProductRetriever.getCurrentAccountProduct(), ProductRetriever.getStudentAccountProduct(),
                 ProductRetriever.getSeniorAccountProduct(), ProductRetriever.getDebitCardProduct()
         ));
-        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertArrayEquals(expectedSuggestions.toArray(), productSuggestions.toArray());
+    }
+
+    @Test
+    public void shouldReturnErrorWhenRetrievingSuggestionsGivenEmptyBody() {
+        //Arrange
+        String url = baseUrl + "/product-suggestions/";
+        //Act
+        TestRestTemplate restTemplate = new TestRestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        HttpEntity<Answer> request = new HttpEntity<>(new Answer(), headers);
+        ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+        //Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
 }
