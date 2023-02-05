@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class Answer {
 
     private String ageRange;
-    private boolean studyingStatus;
+    private boolean studying;
     private String incomeRange;
 
 }

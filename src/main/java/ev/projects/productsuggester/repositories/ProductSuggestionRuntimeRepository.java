@@ -95,10 +95,13 @@ public class ProductSuggestionRuntimeRepository implements ProductSuggestionRepo
 
     @Override
     public List<Product> getSuggestions(Answer answer) {
+        if(Objects.isNull(answer)) {
+            throw new NullPointerException();
+        }
         List<Product> suggestionsByAge = productSuggestionsByAge
                 .getOrDefault(answer.getAgeRange(), new ArrayList<>());
         List<Product> suggestionsByStudentStatus = productSuggestionsByStudentStatus
-                .getOrDefault(answer.isStudyingStatus(), new ArrayList<>());
+                .getOrDefault(answer.isStudying(), new ArrayList<>());
         List<Product> suggestionsByIncome = productSuggestionsByIncome
                 .getOrDefault(answer.getIncomeRange(), new ArrayList<>());
         List<Product> suggestedProducts = suggestionsByAge.stream()
@@ -108,5 +111,16 @@ public class ProductSuggestionRuntimeRepository implements ProductSuggestionRepo
                 .toList();
         return suggestedProducts;
     }
+
+    @Override
+    public void addProduct(Product product, Answer answer) {
+        if(Objects.isNull(product) || Objects.isNull(answer)) {
+            throw new NullPointerException();
+        }
+        productSuggestionsByAge.computeIfAbsent(answer.getAgeRange(), key -> new ArrayList<>()).add(product);
+        productSuggestionsByStudentStatus.computeIfAbsent(answer.isStudying(), key -> new ArrayList<>()).add(product);
+        productSuggestionsByIncome.computeIfAbsent(answer.getIncomeRange(), key -> new ArrayList<>()).add(product);
+    }
+
 
 }

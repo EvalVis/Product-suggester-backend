@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ProductSuggestionRepository {
     List<Product> getSuggestions(Answer answer);
+    void addProduct(Product product, Answer answer);
 }
