@@ -17,6 +17,7 @@ public class ProductSuggestionRestController {
     @Autowired
     private ProductSuggestionService productSuggestionService;
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/")
     public ResponseEntity<List<Product>> getSuggestionsByAnswers(@RequestBody Answer answer) {
         try {
