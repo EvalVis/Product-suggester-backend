@@ -101,11 +101,13 @@ public class ProductSuggestionRuntimeRepository implements ProductSuggestionRepo
         List<Product> suggestionsByAge = productSuggestionsByAge.get(answer.getAgeRange());
         List<Product> suggestionsByStudentStatus = productSuggestionsByStudentStatus.get(answer.isStudying());
         List<Product> suggestionsByIncome = productSuggestionsByIncome.get(answer.getIncomeRange());
-        List<Product> suggestedProducts = suggestionsByAge.stream()
-                .filter(suggestedProduct ->
-                        suggestionsByStudentStatus.contains(suggestedProduct)
-                                && suggestionsByIncome.contains(suggestedProduct))
-                .toList();
+        List<Product> suggestedProducts = new ArrayList<>();
+        for (Product suggestedProduct : suggestionsByAge) {
+            if (suggestionsByStudentStatus.contains(suggestedProduct)
+                    && suggestionsByIncome.contains(suggestedProduct)) {
+                suggestedProducts.add(suggestedProduct);
+            }
+        }
         return suggestedProducts;
     }
 

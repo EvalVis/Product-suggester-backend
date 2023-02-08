@@ -1,18 +1,19 @@
 package ev.projects.productsuggester.restControllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ev.projects.productsuggester.ProductSuggesterApplication;
 import ev.projects.productsuggester.models.Answer;
 import ev.projects.productsuggester.models.Product;
 import ev.projects.productsuggester.models.dtos.ProductAnswer;
+import ev.projects.productsuggester.utils.BasicAuthTestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,18 +34,18 @@ public class ProductRestControllerTest {
     }
 
     @Test
-    public void shouldCreateNewProduct() throws JsonProcessingException {
+    public void shouldCreateNewProduct() throws IOException {
         //Arrange
         Product product = new Product("My product");
         Answer answer = new Answer("0-17", true, "0");
         ProductAnswer productAnswer = new ProductAnswer();
         productAnswer.setProduct(product);
         productAnswer.setAnswer(answer);
-        String creationUrl = baseUrl + "/product/create";
-        String retrievalUrl = baseUrl + "/product-suggestions/";
+        String creationUrl = baseUrl + "/product/create/";
+        String retrievalUrl = baseUrl + "/suggestions/";
         //Act
         TestRestTemplate restTemplate = new TestRestTemplate();
-        HttpHeaders headers = new HttpHeaders();
+        HttpHeaders headers = BasicAuthTestHelper.getBasicAuth();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         HttpEntity<ProductAnswer> creationRequest = new HttpEntity<>(productAnswer, headers);
         ResponseEntity<Void> creationResponse = restTemplate.postForEntity(creationUrl, creationRequest, Void.class);
@@ -61,10 +62,10 @@ public class ProductRestControllerTest {
     @Test
     public void shouldReturnErrorOnCreateProductGivenEmptyBody() {
         //Arrange
-        String url = baseUrl + "/product/create";
+        String url = baseUrl + "/product/create/";
         //Act
         TestRestTemplate restTemplate = new TestRestTemplate();
-        HttpHeaders headers = new HttpHeaders();
+        HttpHeaders headers = BasicAuthTestHelper.getBasicAuth();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         HttpEntity<ProductAnswer> creationRequest = new HttpEntity<>(new ProductAnswer(), headers);
         ResponseEntity<Void> creationResponse = restTemplate.postForEntity(url, creationRequest, Void.class);

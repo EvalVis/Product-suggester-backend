@@ -1,18 +1,19 @@
 package ev.projects.productsuggester.restControllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ev.projects.productsuggester.ProductSuggesterApplication;
 import ev.projects.productsuggester.models.Answer;
 import ev.projects.productsuggester.models.Product;
+import ev.projects.productsuggester.utils.BasicAuthTestHelper;
 import ev.projects.productsuggester.utils.ProductRetriever;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,13 +35,13 @@ public class ProductSuggestionsRestControllerTest {
     }
 
     @Test
-    public void shouldRetrieveCorrectSuggestionsGivenAnswers() throws JsonProcessingException {
+    public void shouldRetrieveCorrectSuggestionsGivenAnswers() throws IOException {
         //Arrange
         Answer answer = new Answer("65+", true, "1-12000");
-        String url = baseUrl + "/product-suggestions/";
+        String url = baseUrl + "/suggestions/";
         //Act
         TestRestTemplate restTemplate = new TestRestTemplate();
-        HttpHeaders headers = new HttpHeaders();
+        HttpHeaders headers = BasicAuthTestHelper.getBasicAuth();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         HttpEntity<Answer> request = new HttpEntity<>(answer, headers);
         ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
@@ -58,10 +59,10 @@ public class ProductSuggestionsRestControllerTest {
     @Test
     public void shouldReturnErrorWhenRetrievingSuggestionsGivenEmptyBody() {
         //Arrange
-        String url = baseUrl + "/product-suggestions/";
+        String url = baseUrl + "/suggestions/";
         //Act
         TestRestTemplate restTemplate = new TestRestTemplate();
-        HttpHeaders headers = new HttpHeaders();
+        HttpHeaders headers = BasicAuthTestHelper.getBasicAuth();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         HttpEntity<Answer> request = new HttpEntity<>(new Answer(), headers);
         ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
