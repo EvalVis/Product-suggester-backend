@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/suggestions/")
-public class ProductSuggestionRestController {
+public class ProductSuggestionsRestController {
 
     @Autowired
     private ProductSuggestionService productSuggestionService;

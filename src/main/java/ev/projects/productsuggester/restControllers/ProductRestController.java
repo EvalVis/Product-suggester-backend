@@ -15,7 +15,7 @@ public class ProductRestController {
     private ProductService productService;
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @PostMapping("/create")
+    @PostMapping("/create/")
     public ResponseEntity<Void> createNewProduct(@RequestBody ProductAnswer productAnswer) {
         try {
             productService.addProduct(productAnswer.getProduct(), productAnswer.getAnswer());

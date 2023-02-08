@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(classes = ProductSuggesterApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ProductSuggestionRestControllerTest {
+public class ProductSuggestionsRestControllerTest {
 
     @LocalServerPort
     private int port;
