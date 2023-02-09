@@ -6,7 +6,10 @@ Clone the project with the command:
 ```
 git clone https://github.com/EvalVis/Product-suggester-backend
 ```
-Then go to the recently downloaded backend app folder and run mvn spring-boot:run
+Then go to the recently downloaded backend app folder and run:
+```
+mvn spring-boot:run
+```
 The app should start, however, for the complete functionality you need to setup the frontend part: https://github.com/EvalVis/Product-suggester-frontend.
 
 ## Packaging the backend part
