@@ -25,4 +25,5 @@ java -jar [.jar name].jar
 The app has a runtime database, so it does not provide persistence.
 However, if a relational db would be created it should look like this:
 ![Current database](dbDiagram.drawio.png)
+<br />
 Currently, the many to many relationships are implemented with hashmaps and products are retrieved simulating the join operation which could be performed in the database.
